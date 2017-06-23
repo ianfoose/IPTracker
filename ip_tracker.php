@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-date_default_timezone_set("America/New_York");
+date_default_timezone_set("America/New_York"); // set timezone
 
 $currentIPFile = dirname(__FILE__).'/current_ip.txt';
 $currentIP = file_get_contents($currentIPFile);
@@ -30,11 +30,12 @@ if(!empty($rawIP)) {
 function sendEmail($ip) {
 	file_put_contents(dirname(__FILE__).'/current_ip.txt', "$ip");
 
-	$email = ''; # SET
-	$password = ''; # SET
+	$email = ''; // SET
+	$password = ''; // SET
 
 	require_once('swift_mailer/swift_required.php');
 
+	// set email server setting
 	$transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl') # check for SMTP
 	->setUsername($email) 
 	->setPassword($password); 
@@ -42,7 +43,7 @@ function sendEmail($ip) {
 	$mailer = Swift_Mailer::newInstance($transport);
 
 	$message = Swift_Message::newInstance('Log')
-	->setFrom(array('network@fooseindustries.com' => 'Foose Industries'))
+	->setFrom(array('sender' => 'sender_name')) // set sender address and name
 	->setTo(array($email))
 	->setBody('Your new IP is '.$ip);
 
